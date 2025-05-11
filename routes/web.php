@@ -11,13 +11,27 @@ use App\Http\Controllers\Ventas;
 use Illuminate\Support\Facades\Route;
 
 
+//CREAR UN USUARIO UNA VEZ 
+Route::get('/crear-admin', [AuthController::class, 'CrearAdmin']);
+
+
+
 
 //HACER LA RUTA VALIDA 
 
 Route::get('/', [AuthController::class, 'index'])->name('login');
+Route::post('/logear', [AuthController::class, 'logear'])->name('logear');
+//RUTA PARA CERRAR SESION
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
-//SE CAMBIA EL CONTROLADOR
-Route::get('/home', [Dashboard::class, 'index'])->name('home');
+Route::middleware("auth")->group(function(){
+    Route::get('/home', [Dashboard::class, 'index'])->name('home'); //SE CAMBIA EL CONTROLADOR
+    
+    });
+
+
+
+
 
 //se crea la ruta para ventas y detalles ventas
 route::prefix('ventas')->group(function(){
